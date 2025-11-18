@@ -11,7 +11,7 @@ POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
 POSTGRES_USER = os.environ.get('POSTGRES_USER', 'myuser')
 POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'mysecretpassword')
 POSTGRES_DB = os.environ.get('POSTGRES_DB', 'mydb')
-APP_PORT = int(os.environ.get('PORT', 8080))
+APP_PORT = int(os.environ.get('APP_PORT', 8080))
 
 app = Flask(__name__)
 
