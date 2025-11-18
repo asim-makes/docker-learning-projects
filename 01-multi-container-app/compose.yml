@@ -1,0 +1,45 @@
+services:
+    postgres:
+        image: postgres:14.1-alpine
+        restart: always
+        environment:
+            POSTGRES_DB: pg_db
+            POSTGRES_USER: postgres_user
+            POSTGRES_PASSWORD: 'postgres_P@$sw0rd'
+        volumes:
+            - postgres_db:/var/lib/postgresql/data
+            - ./postgres_db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    redis:
+        image: redis:6.2-alpine
+        restart: always
+        command: redis-server --save 20 1 --loglevel warning --requirepass 'R3d1$_Pa$sw0Rdd'
+        volumes:
+            - redis_cache:/data
+    web:
+        container_name: simple_flask_app
+        build:
+            context: .
+            target: builder
+        stop_signal: SIGINT
+        depends_on:
+            - postgres
+            - redis
+        ports:
+            - '8000:8000'
+        environment:
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            REDIS_PASSWORD: 'R3d1$_Pa$sw0Rdd'
+            POSTGRES_HOST: postgres
+            POSTGRES_USER: postgres_user
+            POSTGRES_PASSWORD: 'postgres_P@$sw0rd'
+            POSTGRES_DB: pg_db
+            APP_PORT: 8000
+        volumes:
+            - .:/code
+
+volumes:
+    postgres_db:
+        driver: local
+    redis_cache:
+        driver: local

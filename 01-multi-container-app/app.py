@@ -26,7 +26,11 @@ def init_connections():
     
     # 1. Initialize Redis Connection
     try:
-        redis_client = redis.Redis(host=REDIS_HOST, port=6379, socket_connect_timeout=1)
+        redis_client = redis.Redis(host=REDIS_HOST,
+                                   port=6379,
+                                   password=os.environ.get('REDIS_PASSWORD'),
+                                   socket_connect_timeout=1
+                                   )
         # Attempt a simple ping to ensure connectivity
         redis_client.ping()
         print(f"Successfully connected to Redis at {REDIS_HOST}")
