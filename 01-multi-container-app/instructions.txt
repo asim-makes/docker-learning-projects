@@ -1,5 +1,0 @@
-**1. Multi-Container Application with Docker Compose**
-
-- Build a simple web app (Node.js/Python) + PostgreSQL + Redis + Nginx
-- Practice: networking, volumes, environment variables, health checks
-- This directly translates to ECS task definitions
