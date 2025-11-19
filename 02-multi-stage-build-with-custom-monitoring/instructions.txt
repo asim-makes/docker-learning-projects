@@ -1,0 +1,13 @@
+**2. Custom Base Images & Multi-Stage Builds**
+
+- Create optimized images for a microservice
+- Implement multi-stage builds to reduce image size
+- Practice: layer caching, .dockerignore, security scanning with Trivy
+- Important for ECS performance and cost
+
+**3. Container Monitoring Stack**
+
+- Deploy Prometheus + Grafana + cAdvisor
+- Create dashboards for container metrics
+- Set up alerts for resource usage
+- Critical skill: you'll use CloudWatch/Datadog in production
