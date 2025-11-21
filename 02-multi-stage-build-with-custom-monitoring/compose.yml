@@ -1,0 +1,41 @@
+services:
+    app_api:
+        container_name: multi_stage_build_api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: multi-stage:latest
+        ports:
+            - 8000:5000
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+
+    prometheus:
+        container_name: prometheus
+        image: prom/prometheus:v2.55.0
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - 9090:9090
+        depends_on:
+            app_api:
+                condition: service_healthy
+
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:11.3.0
+        user: "472"
+        volumes:
+            - ./grafana.yml:/etc/grafana/provisioning/datasources/datasource.yml
+            - grafana-data:/var/lib/grafana
+        ports:
+            - 3000:3000
+        environment:
+            - GF_SECURITY_ADMIN=admin
+            - GF_SECURITY_PASSWORD=P@ssw0rd
+
+volumes:
+    grafana-data:
