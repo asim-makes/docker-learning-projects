@@ -1,4 +1,4 @@
-name: Flask CI/CD Pipeline to Docker Hub
+name: Flask CI/CD Pipeline to Docker Hub - v1
 
 on:
     push:

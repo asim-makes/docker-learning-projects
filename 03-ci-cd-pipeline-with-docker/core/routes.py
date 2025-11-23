@@ -18,7 +18,7 @@ def index():
         short_id = request.form['custom_id']
 
         if short_id and ShortUrls.query.filter_by(short_id=short_id).first() is not None:
-            flash('Please enter a different custom id!')
+            flash('Please enter different custom id!')
             return redirect(url_for('index'))
 
         if not url:
