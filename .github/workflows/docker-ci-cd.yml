@@ -5,7 +5,7 @@ on:
         branches:
           - main
         paths:
-          - '03-ci-cd-pipeline-with-docker/**'
+          - './03-ci-cd-pipeline-with-docker/**'
 
 jobs:
     build-and-deploy:
