@@ -3,9 +3,10 @@ services:
     build: .
     ports:
       - "5000:5000"
-    environment:
-      FLASK_APP: main.py    
     volumes:
       - ./data:/url_shortener_app/data
+    environment:
+      FLASK_APP: core
+      DATABASE_URL: sqlite:///data/shorty.db
     env_file:
       - .env
