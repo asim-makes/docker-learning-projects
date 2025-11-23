@@ -4,8 +4,8 @@ on:
     push:
         branches:
           - main
-        paths:
-          - './03-ci-cd-pipeline-with-docker/**'
+        # paths:
+        #   - './03-ci-cd-pipeline-with-docker/**'
 
 jobs:
     build-and-deploy:
@@ -43,6 +43,6 @@ jobs:
             - name: Build and Push Docker Image
               uses: docker/build-push-action@v5
               with:
-                context: .
+                context: ./03-ci-cd-pipeline-with-docker
                 push: true
                 tags: ${{ steps.meta.outputs.TAG }}
