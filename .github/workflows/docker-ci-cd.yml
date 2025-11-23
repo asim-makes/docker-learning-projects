@@ -3,7 +3,9 @@ name: Flask CI/CD Pipeline to Docker Hub
 on:
     push:
         branches:
-            - main
+          - main
+        paths:
+          - '03-ci-cd-pipeline-with-docker/**'
 
 jobs:
     build-and-deploy:
