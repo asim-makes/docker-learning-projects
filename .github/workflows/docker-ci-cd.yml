@@ -26,6 +26,10 @@ jobs:
               working-directory: ./03-ci-cd-pipeline-with-docker
             
             - name: Run Tests
+              env:
+                APP_SETTINGS: config.TestingConfig
+                DATABASE_URL: sqlite:///test.db
+                SECRET_KEY: test_secret_key
               run: |
                 pytest
               working-directory: ./03-ci-cd-pipeline-with-docker
@@ -45,4 +49,8 @@ jobs:
               with:
                 context: ./03-ci-cd-pipeline-with-docker
                 push: true
+                build-args: |
+                  APP_SETTINGS=config.ProductionConfig
+                  DATABASE_URL=${{ secrets.DATABASE_URL }}
+                  SECRET_KEY=${{ secrets.SECRET_KEY }}
                 tags: ${{ steps.meta.outputs.TAG }}
