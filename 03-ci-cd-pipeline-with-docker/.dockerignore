@@ -1,0 +1,9 @@
+.env
+__pycache__
+migrations
+.git
+migrations
+*.pyc
+instance/shorty.db
+data/
+instructions.txt
