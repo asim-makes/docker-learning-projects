@@ -1,0 +1,58 @@
+services:
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.12
+        ports:
+            - "9200:9200"
+        environment:
+            - xpack.ml.enabled=false
+            - xpack.security.enabled=false
+            - discovery.type=single-node
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+        volumes:
+            - elasticsearch-data:/usr/share/elasticsearch/data
+
+    logstash:
+        build:
+            context: .
+            dockerfile: Dockerfile.logstash
+        ports:
+            - "5044:5044"
+        depends_on:
+            - elasticsearch
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:8.12
+        ports:
+            - "5601:5601"
+        depends_on:
+            - elasticsearch
+        environment:
+            KIBANA_ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
+
+    flask-app:
+        build:
+            context: .
+            dockerfile: Dockerfile.flask
+        ports:
+            - "8000:5000"
+        environment:
+            SERVICE_NAME: flask-api
+
+    filebeat:
+        image: docker.elastic.co/beats/filebeat:8.12
+        user: root
+        command: ["filebeat", "-e"]
+        volumes:
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+            - /etc/hosts:/etc/hosts:ro
+        environment:
+            - setup.template.enabled=false
+            - setup.ilm.enabled=false
+        depends_on:
+            - logstash
+
+volumes:
+    elasticsearch-data:
