@@ -1,0 +1,42 @@
+services:
+    blue_app:
+        build:
+            context: ./app
+            dockerfile: Dockerfile.app
+        container_name: blue_v1
+        environment:
+            - APP_VERSION=1.0
+            - APP_COLOR=blue
+        networks:
+            - app_network
+        restart: unless-stopped
+
+    green_app:
+        build:
+            context: ./app
+            dockerfile: Dockerfile.app
+        container_name: green_v2
+        environment:
+            - APP_VERSION=2.0
+            - APP_COLOR=green
+        networks:
+            - app_network
+        restart: unless-stopped
+
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.nginx
+        container_name: nginx_proxy
+        ports:
+            - "8000:80"
+        depends_on:
+            - blue_app
+            - green_app
+        networks:
+            - app_network
+        restart: unless-stopped
+
+networks:
+    app_network:
+        driver: bridge
