@@ -19,7 +19,7 @@ The idea is to run two versions of the same app (`blue_app` and `green_app`) and
 
 ## 📂 Project Structure
 
-    project/
+    05-zero-deployment-simulation/
     │
     ├── compose.yml
     │
